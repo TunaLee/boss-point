@@ -24,7 +24,7 @@
         .tab-btn.active[data-tab="always"] { background: #2d6a4f; }
         .tab-btn.active[data-tab="public"] { background: #1d3557; }
         .tab-btn.active[data-tab="blind"] { background: #6a040f; }
-        .tab-btn.active[data-tab="turn"] { background: #7b2d8e; }
+        .tab-btn.active[data-tab="rules"] { background: #7b2d8e; }
 
         .tab-content { display: none; background: #0f0f23; border-radius: 0 6px 6px 6px; padding: 16px; margin-bottom: 20px; }
         .tab-content.active { display: block; }
@@ -81,7 +81,7 @@
         <button class="tab-btn" data-tab="always">&#x1F4E6; 상시판매</button>
         <button class="tab-btn" data-tab="public">&#x1F4E2; 공개입찰</button>
         <button class="tab-btn" data-tab="blind">&#x1F50D; 블라인드</button>
-        <button class="tab-btn" data-tab="turn">&#x1F4CB; 순번제</button>
+        <button class="tab-btn" data-tab="rules">&#x1F4DC; 규칙</button>
     </div>
 
     <div id="auction" class="tab-content active"><div class="loading">데이터 로딩 중...</div></div>
@@ -89,7 +89,7 @@
     <div id="always" class="tab-content"><div class="loading">데이터 로딩 중...</div></div>
     <div id="public" class="tab-content"><div class="loading">데이터 로딩 중...</div></div>
     <div id="blind" class="tab-content"><div class="loading">데이터 로딩 중...</div></div>
-    <div id="turn" class="tab-content"><div class="loading">데이터 로딩 중...</div></div>
+    <div id="rules" class="tab-content"><div class="loading">데이터 로딩 중...</div></div>
 </div>
 
 <script>
@@ -104,7 +104,7 @@ const SHEETS = {
     always: '상시판매',
     public: '공개입찰',
     blind: '블라인드입찰',
-    turn: '순번제',
+    rules: '규칙',
     settings: '설정'
 };
 
@@ -200,18 +200,21 @@ function renderPointTable(data, targetId) {
     document.getElementById(targetId).innerHTML = html;
 }
 
-function renderTurn(data) {
+function renderRules(data) {
     let html = `<table><thead><tr>
-        <th style="width:40%">아이템</th>
-        <th style="width:30%">방식</th>
-        <th style="width:30%">가격</th>
+        <th style="width:30%">항목</th>
+        <th style="width:70%">내용</th>
     </tr></thead><tbody>`;
     data.rows.forEach(r => {
         if (!r[0]) return;
-        html += `<tr><td class="name">${r[0]}</td><td>${r[1]||''}</td><td class="price">${r[2]||''}</td></tr>`;
+        if (!r[1]) {
+            html += `<tr class="sub-header"><td colspan="2">${r[0]}</td></tr>`;
+            return;
+        }
+        html += `<tr><td class="name">${r[0]}</td><td class="note" style="text-align:left">${r[1]}</td></tr>`;
     });
     html += '</tbody></table>';
-    document.getElementById('turn').innerHTML = html;
+    document.getElementById('rules').innerHTML = html;
 }
 
 // ========== 탭 전환 ==========
@@ -252,8 +255,8 @@ function loadAll() {
     fetchSheet(SHEETS.blind).then(d => renderPointTable(d, 'blind')).catch(e => {
         document.getElementById('blind').innerHTML = `<div class="error">블라인드입찰 시트 로드 실패</div>`;
     });
-    fetchSheet(SHEETS.turn).then(renderTurn).catch(e => {
-        document.getElementById('turn').innerHTML = `<div class="error">순번제 시트 로드 실패</div>`;
+    fetchSheet(SHEETS.rules).then(renderRules).catch(e => {
+        document.getElementById('rules').innerHTML = `<div class="error">규칙 시트 로드 실패</div>`;
     });
 }
 
