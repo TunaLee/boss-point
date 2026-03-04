@@ -6,147 +6,360 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>흉&베라 포인트 입찰 메뉴얼</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif; background: #1a1a2e; color: #e0e0e0; padding: 20px; line-height: 1.6; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        h1 { text-align: center; font-size: 26px; color: #ffd700; margin-bottom: 6px; text-shadow: 0 0 10px rgba(255,215,0,.3); }
-        .update-date { text-align: center; color: #888; font-size: 13px; margin-bottom: 16px; }
-        .rules { background: #16213e; border: 1px solid #334; border-radius: 8px; padding: 14px 18px; margin-bottom: 20px; font-size: 13px; color: #aab; }
-        .rules p { margin-bottom: 3px; }
-        .rules strong { color: #ffd700; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        .tabs { display: flex; gap: 4px; margin-bottom: 0; flex-wrap: wrap; }
-        .tab-btn { padding: 8px 16px; border: none; border-radius: 6px 6px 0 0; cursor: pointer; font-size: 13px; font-weight: 600; background: #222244; color: #888; transition: all .2s; }
-        .tab-btn:hover { color: #ccc; }
-        .tab-btn.active { color: #fff; }
-        .tab-btn.active[data-tab="auction"] { background: #b45309; }
-        .tab-btn.active[data-tab="stock"] { background: #065f46; }
-        .tab-btn.active[data-tab="always"] { background: #2d6a4f; }
-        .tab-btn.active[data-tab="public"] { background: #1d3557; }
-        .tab-btn.active[data-tab="blind"] { background: #6a040f; }
-        .tab-btn.active[data-tab="rules"] { background: #7b2d8e; }
+        body {
+            font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+            background: #1a1a2e;
+            color: #e0e0e0;
+            padding: 20px;
+            line-height: 1.6;
+        }
 
-        .tab-content { display: none; background: #0f0f23; border-radius: 0 6px 6px 6px; padding: 16px; margin-bottom: 20px; }
-        .tab-content.active { display: block; }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-        .deadline { text-align: center; font-size: 16px; font-weight: bold; color: #f59e0b; background: #451a03; padding: 10px; border-radius: 6px; margin-bottom: 12px; }
-        .point-rate { text-align: center; font-size: 13px; color: #93c5fd; margin-bottom: 12px; }
+        h1 {
+            text-align: center;
+            font-size: 26px;
+            color: #ffd700;
+            margin-bottom: 6px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, .3);
+        }
 
-        table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        thead th { background: #222244; color: #ccc; padding: 8px 12px; text-align: center; font-weight: 600; font-size: 12px; border-bottom: 2px solid #444; }
-        tbody td { padding: 7px 12px; border-bottom: 1px solid #1e1e3a; text-align: center; }
-        tbody tr:hover { background: #1a1a3e; }
-        td.name { text-align: left; font-weight: 500; color: #e8e8e8; }
-        td.points { color: #93c5fd; }
-        td.price { color: #ffd700; font-weight: 600; }
-        td.price.free { color: #4ade80; }
-        td.price.external { color: #f87171; font-style: italic; }
-        td.qty { color: #c084fc; font-weight: 600; }
-        td.note { color: #888; font-size: 12px; text-align: left; }
+        .update-date {
+            text-align: center;
+            color: #888;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
 
-        .sub-header td { background: #1a1a3a; padding: 6px 12px; font-size: 12px; color: #888; font-weight: 600; text-align: left; }
-        .extra-points { background: #111130; border: 1px solid #2a2a5a; border-radius: 4px; padding: 6px 12px; margin: 2px 0; font-size: 12px; display: inline-block; color: #93c5fd; }
-        .badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 3px; margin-left: 4px; vertical-align: middle; }
-        .badge.weekly { background: #854d0e; color: #fde68a; }
-        .badge.warn { background: #7f1d1d; color: #fca5a5; }
+        .rules {
+            background: #16213e;
+            border: 1px solid #334;
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #aab;
+        }
 
-        .loading { text-align: center; padding: 40px; color: #888; }
-        .error { text-align: center; padding: 20px; color: #f87171; }
+        .rules p {
+            margin-bottom: 3px;
+        }
+
+        .rules strong {
+            color: #ffd700;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 0;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px 6px 0 0;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            background: #222244;
+            color: #888;
+            transition: all .2s;
+        }
+
+        .tab-btn:hover {
+            color: #ccc;
+        }
+
+        .tab-btn.active {
+            color: #fff;
+        }
+
+        .tab-btn.active[data-tab="auction"] {
+            background: #b45309;
+        }
+
+        .tab-btn.active[data-tab="stock"] {
+            background: #065f46;
+        }
+
+        .tab-btn.active[data-tab="always"] {
+            background: #2d6a4f;
+        }
+
+        .tab-btn.active[data-tab="public"] {
+            background: #1d3557;
+        }
+
+        .tab-btn.active[data-tab="rules"] {
+            background: #7b2d8e;
+        }
+
+        .tab-content {
+            display: none;
+            background: #0f0f23;
+            border-radius: 0 6px 6px 6px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .deadline {
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: #f59e0b;
+            background: #451a03;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+
+        .point-rate {
+            text-align: center;
+            font-size: 13px;
+            color: #93c5fd;
+            margin-bottom: 12px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        thead th {
+            background: #222244;
+            color: #ccc;
+            padding: 8px 12px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 12px;
+            border-bottom: 2px solid #444;
+        }
+
+        tbody td {
+            padding: 7px 12px;
+            border-bottom: 1px solid #1e1e3a;
+            text-align: center;
+        }
+
+        tbody tr:hover {
+            background: #1a1a3e;
+        }
+
+        td.name {
+            text-align: left;
+            font-weight: 500;
+            color: #e8e8e8;
+        }
+
+        td.points {
+            color: #93c5fd;
+        }
+
+        td.price {
+            color: #ffd700;
+            font-weight: 600;
+        }
+
+        td.price.free {
+            color: #4ade80;
+        }
+
+        td.price.external {
+            color: #f87171;
+            font-style: italic;
+        }
+
+        td.qty {
+            color: #c084fc;
+            font-weight: 600;
+        }
+
+        td.note {
+            color: #888;
+            font-size: 12px;
+            text-align: left;
+        }
+
+        .sub-header td {
+            background: #1a1a3a;
+            padding: 6px 12px;
+            font-size: 12px;
+            color: #888;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .extra-points {
+            background: #111130;
+            border: 1px solid #2a2a5a;
+            border-radius: 4px;
+            padding: 6px 12px;
+            margin: 2px 0;
+            font-size: 12px;
+            display: inline-block;
+            color: #93c5fd;
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 10px;
+            padding: 1px 6px;
+            border-radius: 3px;
+            margin-left: 4px;
+            vertical-align: middle;
+        }
+
+        .badge.weekly {
+            background: #854d0e;
+            color: #fde68a;
+        }
+
+        .badge.warn {
+            background: #7f1d1d;
+            color: #fca5a5;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+        }
+
+        .error {
+            text-align: center;
+            padding: 20px;
+            color: #f87171;
+        }
 
         @media (max-width: 768px) {
-            body { padding: 10px; }
-            table { font-size: 12px; }
-            thead th, tbody td { padding: 5px 6px; }
-            .tab-btn { padding: 6px 10px; font-size: 12px; }
+            body {
+                padding: 10px;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            thead th,
+            tbody td {
+                padding: 5px 6px;
+            }
+
+            .tab-btn {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
         }
     </style>
 </head>
 
 <body>
-<div class="container">
-    <h1>&#x2728; 흉&amp;베라 포인트 입찰 메뉴얼 &#x2728;</h1>
-    <p class="update-date" id="updateDate">갱신일: -</p>
+    <div class="container">
+        <h1>&#x2728; 흉&amp;베라 포인트 입찰 메뉴얼 &#x2728;</h1>
+        <p class="update-date" id="updateDate">갱신일: -</p>
 
-    <div class="rules">
-        <p>* 상시판매 / 공개 입찰 / 블라인드 입찰 / 순번제 네가지로 구분됩니다.</p>
-        <p>- <strong>상시판매</strong> 아이템은 재고가 있는경우 거래톡방을 통해서 즉시구매 가능 (보유포인트 충족시)</p>
-        <p>- <strong>입찰</strong>로 진행되는 아이템은 입찰시 입찰자 모두 포인트가 즉시 소모되며 최종 낙찰자가 구매합니다.</p>
-        <p>- 입찰의 철회/반복은 허용되지 않습니다.</p>
-        <p>- <strong>순번제</strong> 아이템은 오피서 회의를 통해 순번이 부여됩니다.</p>
+        <div class="rules">
+            <p>- <strong>소모품</strong> 아이템은 재고가 있는경우 길드톡방 통해서 즉시구매 가능 (보유포인트 충족시)</p>
+            <p>- <strong>입찰</strong>로 진행되는 아이템은 입찰시 입찰자 모두 포인트가 즉시 소모되며 최종 낙찰자가 구매합니다.</p>
+            <p>- 입찰의 철회/반복은 허용되지 않습니다.</p>
+            <p>- <strong>순번제</strong> 아이템은 오피서 회의를 통해 순번이 부여됩니다.</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="rules">&#x1F4DC; 규칙</button>
+            <button class="tab-btn" data-tab="auction">&#x1F525; 현재 입찰</button>
+            <button class="tab-btn" data-tab="stock">&#x1F6D2; 즉시구매</button>
+            <button class="tab-btn" data-tab="always">&#x1F4E6; 상시판매</button>
+            <button class="tab-btn" data-tab="public">&#x1F4E2; 길드템</button>
+        </div>
+
+        <div id="rules" class="tab-content active">
+            <div class="loading">데이터 로딩 중...</div>
+        </div>
+        <div id="auction" class="tab-content">
+            <div class="loading">데이터 로딩 중...</div>
+        </div>
+        <div id="stock" class="tab-content">
+            <div class="loading">데이터 로딩 중...</div>
+        </div>
+        <div id="always" class="tab-content">
+            <div class="loading">데이터 로딩 중...</div>
+        </div>
+        <div id="public" class="tab-content">
+            <div class="loading">데이터 로딩 중...</div>
+        </div>
     </div>
 
-    <div class="tabs">
-        <button class="tab-btn active" data-tab="auction">&#x1F525; 현재 입찰</button>
-        <button class="tab-btn" data-tab="stock">&#x1F6D2; 즉시구매</button>
-        <button class="tab-btn" data-tab="always">&#x1F4E6; 상시판매</button>
-        <button class="tab-btn" data-tab="public">&#x1F4E2; 공개입찰</button>
-        <button class="tab-btn" data-tab="blind">&#x1F50D; 블라인드</button>
-        <button class="tab-btn" data-tab="rules">&#x1F4DC; 규칙</button>
-    </div>
+    <script>
+        // ========== 설정 ==========
+        // Google Sheets ID를 여기에 입력하세요
+        const SHEET_ID = '10jHyyvm0KAHlvPM2AjNWJxbl0__3iGvDIyKiDL16ZGQ';
 
-    <div id="auction" class="tab-content active"><div class="loading">데이터 로딩 중...</div></div>
-    <div id="stock" class="tab-content"><div class="loading">데이터 로딩 중...</div></div>
-    <div id="always" class="tab-content"><div class="loading">데이터 로딩 중...</div></div>
-    <div id="public" class="tab-content"><div class="loading">데이터 로딩 중...</div></div>
-    <div id="blind" class="tab-content"><div class="loading">데이터 로딩 중...</div></div>
-    <div id="rules" class="tab-content"><div class="loading">데이터 로딩 중...</div></div>
-</div>
-
-<script>
-// ========== 설정 ==========
-// Google Sheets ID를 여기에 입력하세요
-const SHEET_ID = '10jHyyvm0KAHlvPM2AjNWJxbl0__3iGvDIyKiDL16ZGQ';
-
-// 시트(탭) 이름 매핑
-const SHEETS = {
-    auction: '현재입찰',
-    stock: '즉시구매',
-    always: '상시판매',
-    public: '공개입찰',
-    blind: '블라인드입찰',
-    rules: '규칙',
-    settings: '설정'
-};
-
-// ========== JSONP 방식 데이터 로드 (file:// 호환) ==========
-let _jsonpId = 0;
-function fetchSheet(sheetName) {
-    return new Promise((resolve, reject) => {
-        const cbName = '_gsheetCb' + (_jsonpId++);
-        const script = document.createElement('script');
-        const timeout = setTimeout(() => { cleanup(); reject(new Error('timeout')); }, 10000);
-        function cleanup() { clearTimeout(timeout); delete window[cbName]; if (script.parentNode) script.parentNode.removeChild(script); }
-        window[cbName] = function(response) {
-            cleanup();
-            if (!response || !response.table) { reject(new Error('no data')); return; }
-            const t = response.table;
-            const headers = t.cols.map(c => c.label || '');
-            const rows = t.rows.map(r => r.c.map(cell => cell ? (cell.v != null ? String(cell.v) : '') : ''));
-            resolve({ headers, rows });
+        // 시트(탭) 이름 매핑
+        const SHEETS = {
+            auction: '현재입찰',
+            stock: '즉시구매',
+            always: '소모품',
+            public: '길드템',
+            rules: '규칙',
+            settings: '설정'
         };
-        script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(sheetName)}&tqx=responseHandler:${cbName}`;
-        script.onerror = () => { cleanup(); reject(new Error('load failed')); };
-        document.body.appendChild(script);
-    });
-}
 
-// ========== 렌더링 ==========
-function priceClass(p) {
-    if (!p) return 'price';
-    if (p === '0원' || p === '0') return 'price free';
-    if (p === '외판') return 'price external';
-    return 'price';
-}
+        // ========== JSONP 방식 데이터 로드 (file:// 호환) ==========
+        let _jsonpId = 0;
+        function fetchSheet(sheetName) {
+            return new Promise((resolve, reject) => {
+                const cbName = '_gsheetCb' + (_jsonpId++);
+                const script = document.createElement('script');
+                const timeout = setTimeout(() => { cleanup(); reject(new Error('timeout')); }, 10000);
+                function cleanup() { clearTimeout(timeout); delete window[cbName]; if (script.parentNode) script.parentNode.removeChild(script); }
+                window[cbName] = function (response) {
+                    cleanup();
+                    if (!response || !response.table) { reject(new Error('no data')); return; }
+                    const t = response.table;
+                    const headers = t.cols.map(c => c.label || '');
+                    const rows = t.rows.map(r => r.c.map(cell => cell ? (cell.v != null ? String(cell.v) : '') : ''));
+                    resolve({ headers, rows });
+                };
+                script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(sheetName)}&tqx=responseHandler:${cbName}`;
+                script.onerror = () => { cleanup(); reject(new Error('load failed')); };
+                document.body.appendChild(script);
+            });
+        }
 
-function renderAuction(data, settings) {
-    let html = '';
-    if (settings) {
-        const deadline = settings.rows[0]?.[0] || '';
-        const rate = settings.rows[0]?.[1] || '';
-        if (deadline) html += `<div class="deadline">&#x23F0; 마감: ${deadline}</div>`;
-        if (rate) html += `<div class="point-rate">${rate}</div>`;
-    }
-    html += `<table><thead><tr>
+        // ========== 렌더링 ==========
+        function priceClass(p) {
+            if (!p) return 'price';
+            if (p === '0원' || p === '0') return 'price free';
+            if (p === '외판') return 'price external';
+            return 'price';
+        }
+
+        function renderAuction(data, settings) {
+            let html = '';
+            if (settings) {
+                const deadline = settings.rows[0]?.[0] || '';
+                const rate = settings.rows[0]?.[1] || '';
+                if (deadline) html += `<div class="deadline">&#x23F0; 마감: ${deadline}</div>`;
+                if (rate) html += `<div class="point-rate">${rate}</div>`;
+            }
+            html += `<table><thead><tr>
         <th style="width:28%">아이템</th>
         <th style="width:10%">수량</th>
         <th style="width:15%">포인트</th>
@@ -154,113 +367,111 @@ function renderAuction(data, settings) {
         <th style="width:13%">미당첨</th>
         <th style="width:19%">비고</th>
     </tr></thead><tbody>`;
-    data.rows.forEach(r => {
-        if (!r[0]) return;
-        const price = r[3] || '';
-        html += `<tr><td class="name">${r[0]}</td><td class="qty">${r[1]||''}</td><td class="points">${r[2]||''}</td><td class="${priceClass(price)}">${price}</td><td class="points">${r[4]||''}</td><td class="note">${r[5]||''}</td></tr>`;
-    });
-    html += '</tbody></table>';
-    document.getElementById('auction').innerHTML = html;
-}
+            data.rows.forEach(r => {
+                if (!r[0]) return;
+                const price = r[3] || '';
+                html += `<tr><td class="name">${r[0]}</td><td class="qty">${r[1] || ''}</td><td class="points">${r[2] || ''}</td><td class="${priceClass(price)}">${price}</td><td class="points">${r[4] || ''}</td><td class="note">${r[5] || ''}</td></tr>`;
+            });
+            html += '</tbody></table>';
+            document.getElementById('auction').innerHTML = html;
+        }
 
-function renderStock(data) {
-    let html = `<table><thead><tr>
+        function renderStock(data) {
+            let html = `<table><thead><tr>
         <th style="width:40%">아이템</th>
         <th style="width:15%">수량</th>
         <th style="width:20%">포인트</th>
         <th style="width:25%">비고</th>
     </tr></thead><tbody>`;
-    data.rows.forEach(r => {
-        if (!r[0]) return;
-        html += `<tr><td class="name">${r[0]}</td><td class="qty">${r[1]||''}</td><td class="points">${r[2]||''}</td><td class="note">${r[3]||''}</td></tr>`;
-    });
-    html += '</tbody></table>';
-    document.getElementById('stock').innerHTML = html;
-}
+            data.rows.forEach(r => {
+                if (!r[0]) return;
+                html += `<tr><td class="name">${r[0]}</td><td class="qty">${r[1] || ''}</td><td class="points">${r[2] || ''}</td><td class="note">${r[3] || ''}</td></tr>`;
+            });
+            html += '</tbody></table>';
+            document.getElementById('stock').innerHTML = html;
+        }
 
-function renderPointTable(data, targetId) {
-    let html = `<table><thead><tr>
+        function renderPointTable(data, targetId) {
+            let html = `<table><thead><tr>
         <th style="width:35%">아이템</th>
         <th style="width:20%">포인트</th>
         <th style="width:25%">가격</th>
         <th style="width:20%">비고</th>
     </tr></thead><tbody>`;
-    let lastGroup = '';
-    data.rows.forEach(r => {
-        if (!r[1] && !r[2] && r[0]) {
-            // 구분(그룹) 행
-            html += `<tr class="sub-header"><td colspan="4">${r[0]}</td></tr>`;
-            return;
+            let lastGroup = '';
+            data.rows.forEach(r => {
+                if (!r[1] && !r[2] && r[0]) {
+                    // 구분(그룹) 행
+                    html += `<tr class="sub-header"><td colspan="4">${r[0]}</td></tr>`;
+                    return;
+                }
+                if (!r[0]) return;
+                const price = r[2] || '';
+                html += `<tr><td class="name">${r[0]}</td><td class="points">${r[1] || ''}</td><td class="${priceClass(price)}">${price}</td><td class="note">${r[3] || ''}</td></tr>`;
+            });
+            html += '</tbody></table>';
+            document.getElementById(targetId).innerHTML = html;
         }
-        if (!r[0]) return;
-        const price = r[2] || '';
-        html += `<tr><td class="name">${r[0]}</td><td class="points">${r[1]||''}</td><td class="${priceClass(price)}">${price}</td><td class="note">${r[3]||''}</td></tr>`;
-    });
-    html += '</tbody></table>';
-    document.getElementById(targetId).innerHTML = html;
-}
 
-function renderRules(data) {
-    let html = `<table><thead><tr>
+        function renderRules(data) {
+            let html = `<table><thead><tr>
         <th style="width:30%">항목</th>
         <th style="width:70%">내용</th>
     </tr></thead><tbody>`;
-    data.rows.forEach(r => {
-        if (!r[0]) return;
-        if (!r[1]) {
-            html += `<tr class="sub-header"><td colspan="2">${r[0]}</td></tr>`;
-            return;
+            data.rows.forEach(r => {
+                if (!r[0]) return;
+                if (!r[1]) {
+                    html += `<tr class="sub-header"><td colspan="2">${r[0]}</td></tr>`;
+                    return;
+                }
+                html += `<tr><td class="name">${r[0]}</td><td class="note" style="text-align:left">${r[1]}</td></tr>`;
+            });
+            html += '</tbody></table>';
+            document.getElementById('rules').innerHTML = html;
         }
-        html += `<tr><td class="name">${r[0]}</td><td class="note" style="text-align:left">${r[1]}</td></tr>`;
-    });
-    html += '</tbody></table>';
-    document.getElementById('rules').innerHTML = html;
-}
 
-// ========== 탭 전환 ==========
-document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById(btn.dataset.tab).classList.add('active');
-    });
-});
+        // ========== 탭 전환 ==========
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
 
-// ========== 데이터 로드 ==========
-function loadAll() {
-    // 설정을 먼저 로드한 후 현재입찰에 전달
-    const settingsPromise = fetchSheet(SHEETS.settings).then(s => {
-        if (s.rows.length > 0) {
-            const date = s.rows[0][2] || '';
-            if (date) document.getElementById('updateDate').textContent = `갱신일: ${date}`;
+        // ========== 데이터 로드 ==========
+        function loadAll() {
+            // 설정을 먼저 로드한 후 현재입찰에 전달
+            const settingsPromise = fetchSheet(SHEETS.settings).then(s => {
+                if (s.rows.length > 0) {
+                    const date = s.rows[0][2] || '';
+                    if (date) document.getElementById('updateDate').textContent = `갱신일: ${date}`;
+                }
+                return s;
+            }).catch(() => null);
+
+            Promise.all([fetchSheet(SHEETS.auction), settingsPromise]).then(([data, settings]) => {
+                renderAuction(data, settings);
+            }).catch(e => {
+                document.getElementById('auction').innerHTML = `<div class="error">현재입찰 시트 로드 실패</div>`;
+            });
+            fetchSheet(SHEETS.stock).then(renderStock).catch(e => {
+                document.getElementById('stock').innerHTML = `<div class="error">즉시구매 시트 로드 실패</div>`;
+            });
+            fetchSheet(SHEETS.always).then(d => renderPointTable(d, 'always')).catch(e => {
+                document.getElementById('always').innerHTML = `<div class="error">상시판매 시트 로드 실패</div>`;
+            });
+            fetchSheet(SHEETS.public).then(d => renderPointTable(d, 'public')).catch(e => {
+                document.getElementById('public').innerHTML = `<div class="error">공개입찰 시트 로드 실패</div>`;
+            });
+            fetchSheet(SHEETS.rules).then(renderRules).catch(e => {
+                document.getElementById('rules').innerHTML = `<div class="error">규칙 시트 로드 실패</div>`;
+            });
         }
-        return s;
-    }).catch(() => null);
 
-    Promise.all([fetchSheet(SHEETS.auction), settingsPromise]).then(([data, settings]) => {
-        renderAuction(data, settings);
-    }).catch(e => {
-        document.getElementById('auction').innerHTML = `<div class="error">현재입찰 시트 로드 실패</div>`;
-    });
-    fetchSheet(SHEETS.stock).then(renderStock).catch(e => {
-        document.getElementById('stock').innerHTML = `<div class="error">즉시구매 시트 로드 실패</div>`;
-    });
-    fetchSheet(SHEETS.always).then(d => renderPointTable(d, 'always')).catch(e => {
-        document.getElementById('always').innerHTML = `<div class="error">상시판매 시트 로드 실패</div>`;
-    });
-    fetchSheet(SHEETS.public).then(d => renderPointTable(d, 'public')).catch(e => {
-        document.getElementById('public').innerHTML = `<div class="error">공개입찰 시트 로드 실패</div>`;
-    });
-    fetchSheet(SHEETS.blind).then(d => renderPointTable(d, 'blind')).catch(e => {
-        document.getElementById('blind').innerHTML = `<div class="error">블라인드입찰 시트 로드 실패</div>`;
-    });
-    fetchSheet(SHEETS.rules).then(renderRules).catch(e => {
-        document.getElementById('rules').innerHTML = `<div class="error">규칙 시트 로드 실패</div>`;
-    });
-}
-
-loadAll();
-</script>
+        loadAll();
+    </script>
 </body>
+
 </html>

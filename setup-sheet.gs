@@ -14,8 +14,6 @@ function setupAll() {
   // 빈 시트 생성 (데이터는 필요할 때 입력)
   getOrCreateSheet(ss, '현재입찰');
   getOrCreateSheet(ss, '즉시구매');
-  getOrCreateSheet(ss, '블라인드입찰');
-
   SpreadsheetApp.getUi().alert('모든 시트 설정이 완료되었습니다!');
 }
 
