@@ -147,15 +147,17 @@ function renderAuction(data, settings) {
         if (rate) html += `<div class="point-rate">${rate}</div>`;
     }
     html += `<table><thead><tr>
-        <th style="width:35%">아이템</th>
-        <th style="width:12%">수량</th>
+        <th style="width:28%">아이템</th>
+        <th style="width:10%">수량</th>
         <th style="width:15%">포인트</th>
-        <th style="width:15%">미당첨</th>
-        <th style="width:23%">비고</th>
+        <th style="width:15%">가격</th>
+        <th style="width:13%">미당첨</th>
+        <th style="width:19%">비고</th>
     </tr></thead><tbody>`;
     data.rows.forEach(r => {
         if (!r[0]) return;
-        html += `<tr><td class="name">${r[0]}</td><td class="qty">${r[1]||''}</td><td class="points">${r[2]||''}</td><td class="points">${r[3]||''}</td><td class="note">${r[4]||''}</td></tr>`;
+        const price = r[3] || '';
+        html += `<tr><td class="name">${r[0]}</td><td class="qty">${r[1]||''}</td><td class="points">${r[2]||''}</td><td class="${priceClass(price)}">${price}</td><td class="points">${r[4]||''}</td><td class="note">${r[5]||''}</td></tr>`;
     });
     html += '</tbody></table>';
     document.getElementById('auction').innerHTML = html;
