@@ -85,14 +85,6 @@
             color: #fff;
         }
 
-        .tab-btn.active[data-tab="auction"] {
-            background: #b45309;
-        }
-
-        .tab-btn.active[data-tab="stock"] {
-            background: #065f46;
-        }
-
         .tab-btn.active[data-tab="always"] {
             background: #2d6a4f;
         }
@@ -115,24 +107,6 @@
 
         .tab-content.active {
             display: block;
-        }
-
-        .deadline {
-            text-align: center;
-            font-size: 16px;
-            font-weight: bold;
-            color: #f59e0b;
-            background: #451a03;
-            padding: 10px;
-            border-radius: 6px;
-            margin-bottom: 12px;
-        }
-
-        .point-rate {
-            text-align: center;
-            font-size: 13px;
-            color: #93c5fd;
-            margin-bottom: 12px;
         }
 
         table {
@@ -275,27 +249,18 @@
         <p class="update-date" id="updateDate">갱신일: -</p>
 
         <div class="rules">
-            <p>- <strong>소모품</strong> 아이템은 재고가 있는경우 길드톡방 통해서 즉시구매 가능 (보유포인트 충족시)</p>
+            <p>- <strong>소모품</strong> 아이템은 길드 오피서들과 이야기 후 재고에 따라 상황에 따라 구매 가능</p>
             <p>- <strong>입찰</strong>로 진행되는 아이템은 입찰시 입찰자 모두 포인트가 즉시 소모되며 최종 낙찰자가 구매합니다.</p>
             <p>- 입찰의 철회/반복은 허용되지 않습니다.</p>
-            <p>- <strong>순번제</strong> 아이템은 오피서 회의를 통해 순번이 부여됩니다.</p>
         </div>
 
         <div class="tabs">
             <button class="tab-btn active" data-tab="rules">&#x1F4DC; 규칙</button>
-            <button class="tab-btn" data-tab="auction">&#x1F525; 현재 입찰</button>
-            <button class="tab-btn" data-tab="stock">&#x1F6D2; 즉시구매</button>
-            <button class="tab-btn" data-tab="always">&#x1F4E6; 상시판매</button>
+            <button class="tab-btn" data-tab="always">&#x1F4E6; 소모품</button>
             <button class="tab-btn" data-tab="public">&#x1F4E2; 길드템</button>
         </div>
 
         <div id="rules" class="tab-content active">
-            <div class="loading">데이터 로딩 중...</div>
-        </div>
-        <div id="auction" class="tab-content">
-            <div class="loading">데이터 로딩 중...</div>
-        </div>
-        <div id="stock" class="tab-content">
             <div class="loading">데이터 로딩 중...</div>
         </div>
         <div id="always" class="tab-content">
@@ -313,8 +278,6 @@
 
         // 시트(탭) 이름 매핑
         const SHEETS = {
-            auction: '현재입찰',
-            stock: '즉시구매',
             always: '소모품',
             public: '길드템',
             rules: '규칙',
@@ -349,46 +312,6 @@
             if (p === '0원' || p === '0') return 'price free';
             if (p === '외판') return 'price external';
             return 'price';
-        }
-
-        function renderAuction(data, settings) {
-            let html = '';
-            if (settings) {
-                const deadline = settings.rows[0]?.[0] || '';
-                const rate = settings.rows[0]?.[1] || '';
-                if (deadline) html += `<div class="deadline">&#x23F0; 마감: ${deadline}</div>`;
-                if (rate) html += `<div class="point-rate">${rate}</div>`;
-            }
-            html += `<table><thead><tr>
-        <th style="width:28%">아이템</th>
-        <th style="width:10%">수량</th>
-        <th style="width:15%">포인트</th>
-        <th style="width:15%">가격</th>
-        <th style="width:13%">미당첨</th>
-        <th style="width:19%">비고</th>
-    </tr></thead><tbody>`;
-            data.rows.forEach(r => {
-                if (!r[0]) return;
-                const price = r[3] || '';
-                html += `<tr><td class="name">${r[0]}</td><td class="qty">${r[1] || ''}</td><td class="points">${r[2] || ''}</td><td class="${priceClass(price)}">${price}</td><td class="points">${r[4] || ''}</td><td class="note">${r[5] || ''}</td></tr>`;
-            });
-            html += '</tbody></table>';
-            document.getElementById('auction').innerHTML = html;
-        }
-
-        function renderStock(data) {
-            let html = `<table><thead><tr>
-        <th style="width:40%">아이템</th>
-        <th style="width:15%">수량</th>
-        <th style="width:20%">포인트</th>
-        <th style="width:25%">비고</th>
-    </tr></thead><tbody>`;
-            data.rows.forEach(r => {
-                if (!r[0]) return;
-                html += `<tr><td class="name">${r[0]}</td><td class="qty">${r[1] || ''}</td><td class="points">${r[2] || ''}</td><td class="note">${r[3] || ''}</td></tr>`;
-            });
-            html += '</tbody></table>';
-            document.getElementById('stock').innerHTML = html;
         }
 
         function renderPointTable(data, targetId) {
@@ -442,23 +365,14 @@
 
         // ========== 데이터 로드 ==========
         function loadAll() {
-            // 설정을 먼저 로드한 후 현재입찰에 전달
-            const settingsPromise = fetchSheet(SHEETS.settings).then(s => {
+            // 설정 로드
+            fetchSheet(SHEETS.settings).then(s => {
                 if (s.rows.length > 0) {
                     const date = s.rows[0][2] || '';
                     if (date) document.getElementById('updateDate').textContent = `갱신일: ${date}`;
                 }
-                return s;
-            }).catch(() => null);
+            }).catch(() => {});
 
-            Promise.all([fetchSheet(SHEETS.auction), settingsPromise]).then(([data, settings]) => {
-                renderAuction(data, settings);
-            }).catch(e => {
-                document.getElementById('auction').innerHTML = `<div class="error">현재입찰 시트 로드 실패</div>`;
-            });
-            fetchSheet(SHEETS.stock).then(renderStock).catch(e => {
-                document.getElementById('stock').innerHTML = `<div class="error">즉시구매 시트 로드 실패</div>`;
-            });
             fetchSheet(SHEETS.always).then(d => renderPointTable(d, 'always')).catch(e => {
                 document.getElementById('always').innerHTML = `<div class="error">상시판매 시트 로드 실패</div>`;
             });
