@@ -138,19 +138,14 @@ function priceClass(p) {
     return 'price';
 }
 
-function renderAuction(data) {
+function renderAuction(data, settings) {
     let html = '';
-    // 설정 시트에서 마감일/환산 가져오기
-    fetchSheet(SHEETS.settings).then(s => {
-        if (s.rows.length > 0) {
-            const deadline = s.rows[0][0] || '';
-            const rate = s.rows[0][1] || '';
-            if (deadline) html = `<div class="deadline">&#x23F0; 마감: ${deadline}</div>` + html;
-            if (rate) html = html.replace('</div><!--rate-->', '') + `<div class="point-rate">${rate}</div>`;
-            document.getElementById('auction').innerHTML = html + document.getElementById('auction').innerHTML.replace(/<div class="deadline">.*?<\/div>/g, '').replace(/<div class="point-rate">.*?<\/div>/g, '');
-        }
-    }).catch(() => {});
-
+    if (settings) {
+        const deadline = settings.rows[0]?.[0] || '';
+        const rate = settings.rows[0]?.[1] || '';
+        if (deadline) html += `<div class="deadline">&#x23F0; 마감: ${deadline}</div>`;
+        if (rate) html += `<div class="point-rate">${rate}</div>`;
+    }
     html += `<table><thead><tr>
         <th style="width:35%">아이템</th>
         <th style="width:12%">수량</th>
@@ -184,21 +179,20 @@ function renderStock(data) {
 function renderPointTable(data, targetId) {
     let html = `<table><thead><tr>
         <th style="width:35%">아이템</th>
-        <th style="width:15%">보스 포인트</th>
-        <th style="width:15%">이급길 포인트</th>
-        <th style="width:20%">가격</th>
-        <th style="width:15%">비고</th>
+        <th style="width:20%">보스 포인트</th>
+        <th style="width:25%">가격</th>
+        <th style="width:20%">비고</th>
     </tr></thead><tbody>`;
     let lastGroup = '';
     data.rows.forEach(r => {
-        if (!r[1] && !r[2] && !r[3] && r[0]) {
+        if (!r[1] && !r[2] && r[0]) {
             // 구분(그룹) 행
-            html += `<tr class="sub-header"><td colspan="5">${r[0]}</td></tr>`;
+            html += `<tr class="sub-header"><td colspan="4">${r[0]}</td></tr>`;
             return;
         }
         if (!r[0]) return;
-        const price = r[3] || '';
-        html += `<tr><td class="name">${r[0]}</td><td class="points">${r[1]||''}</td><td class="points">${r[2]||''}</td><td class="${priceClass(price)}">${price}</td><td class="note">${r[4]||''}</td></tr>`;
+        const price = r[2] || '';
+        html += `<tr><td class="name">${r[0]}</td><td class="points">${r[1]||''}</td><td class="${priceClass(price)}">${price}</td><td class="note">${r[3]||''}</td></tr>`;
     });
     html += '</tbody></table>';
     document.getElementById(targetId).innerHTML = html;
@@ -230,15 +224,18 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 
 // ========== 데이터 로드 ==========
 function loadAll() {
-    // 설정
-    fetchSheet(SHEETS.settings).then(s => {
+    // 설정을 먼저 로드한 후 현재입찰에 전달
+    const settingsPromise = fetchSheet(SHEETS.settings).then(s => {
         if (s.rows.length > 0) {
             const date = s.rows[0][2] || '';
             if (date) document.getElementById('updateDate').textContent = `갱신일: ${date}`;
         }
-    }).catch(() => {});
+        return s;
+    }).catch(() => null);
 
-    fetchSheet(SHEETS.auction).then(renderAuction).catch(e => {
+    Promise.all([fetchSheet(SHEETS.auction), settingsPromise]).then(([data, settings]) => {
+        renderAuction(data, settings);
+    }).catch(e => {
         document.getElementById('auction').innerHTML = `<div class="error">현재입찰 시트 로드 실패</div>`;
     });
     fetchSheet(SHEETS.stock).then(renderStock).catch(e => {
